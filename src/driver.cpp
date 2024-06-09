@@ -49,9 +49,25 @@ _readData(std::string& filename) {
 
 std::pair<std::pair<features, classifications>, std::pair<features, classifications>>
 _getPartitionedData(const std::pair<features, classifications>& data) {
-    std::pair<std::pair<features, classifications>, std::pair<features, classifications>> partitionedDatasets;
+    features trainingFeatures;
+    features testingFeatures;
+    classifications trainingLabels;
+    classifications testingLabels;
 
-    return partitionedDatasets;
+    bool placeInTrainingSet = true;
+    for(int i = 0; i < data.first.size(); ++i) {
+        if(placeInTrainingSet) {
+            trainingFeatures.push_back(data.first[i]);
+            trainingLabels.push_back(data.second[i]);
+        }
+        else {
+            testingFeatures.push_back(data.first[i]);
+            testingLabels.push_back(data.second[i]);
+        }
+    }
+
+    return std::make_pair(std::make_pair(trainingFeatures, trainingLabels),
+                          std::make_pair(testingFeatures, testingLabels));
 }
 
 int main(int argc, char** argv) {
