@@ -64,6 +64,8 @@ _getPartitionedData(const std::pair<features, classifications>& data) {
             testingFeatures.push_back(data.first[i]);
             testingLabels.push_back(data.second[i]);
         }
+
+        placeInTrainingSet = !placeInTrainingSet;
     }
 
     return std::make_pair(std::make_pair(trainingFeatures, trainingLabels),
