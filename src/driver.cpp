@@ -8,9 +8,6 @@
 
 #include "neural_network.hpp"
 
-typedef std::vector<std::vector<double>> features;
-typedef std::vector<int> classifications;
-
 const std::string DATASET_PATH = "";
 const int ROW_INDEX_FOR_FIELD_VALUE_START = 2;
 const int ROW_INDEX_FOR_CLASSIFICATION_VALUE = 1;
@@ -77,8 +74,17 @@ int main(int argc, char** argv) {
     std::string dataFilePath = argv[1];
     std::pair<features, classifications> data = _readData(dataFilePath);
     // TODO: Partition data into training and test set.
+     std::pair<std::pair<features, classifications>, std::pair<features, classifications>> partitionedData = _getPartitionedData(data);
     // TODO: Train neural network.
+    features trainingFeatures = partitionedData.first.first;
+    classifications trainingClassifications = partitionedData.first.second;
+    NeuralNetwork ann = NeuralNetwork();
+    ann.train(trainingFeatures, trainingClassifications);
     // TODO: Calculate test results.
+    features testFeatures = partitionedData.second.first;
+    classifications actualTestClassifications = partitionedData.second.second;
+
+    classifications computedTestClassifications = ann.classify(testFeatures);
 
     std::cout << argv[1] << '\n'; 
 }
